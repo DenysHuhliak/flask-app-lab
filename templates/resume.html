@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Resume{% endblock %}
+
+
+{% block content %}
+
+<section id="about">
+    <h3>Про себе</h3>
+    <p>Я розробник програмного забезпечення.</p>
+</section>
+<section id="education">
+    <h3>Освіта</h3>
+    <p>2023–2027 — Карпатський національного університету імені Василя Стефаника, спеціальність «Інженерія
+        програмного забезпечення»</p>
+    <img style="width: 50px;" src="{{ url_for('static', filename='images/logo.jpg') }}" alt="logo">
+
+</section>
+
+    <h3>Навички</h3>
+    <ul>
+        <li>Робота з базами даних (MySQL)</li>
+        <li>HTML, CSS, JavaScript</li>
+        <li>Python (Flask)</li>
+    </ul>
+</section>
+
+<section id="technologies">
+    <h3>Технології</h3>
+    <p>Git, VS Code, Flask, Bootstrap</p>
+</section>
+
+<section id="projects">
+    <h3>Проекти</h3>
+
+    <p><strong>Flask WebApp</strong> — невеликий веб-додаток</p>
+
+
+</section>
+{% endblock %}
