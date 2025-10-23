@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Homepage{% endblock %}
+
+{% block head_extra %}
+    <link href="{{ url_for('static', filename='css/mystyle.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<nav class="nav">
+    <ul>
+        <li>
+            <a class="navbar-brand" href="{{url_for('users.greetings', name='John', age=30)}}">Greet John</a>
+        </li>
+        <li>
+            <a class="navbar-brand" href="{{url_for('users.admin')}}">Admin</a>
+        </li>
+    </ul>
+</nav>
+    <h1>Hello </h1>
+    {% if name %}
+        <h1>User: {{ name }}</h1>        
+    {% else %}
+        <h1>User: Guest</h1>
+    {% endif %}
+    <p>Age: {{ age }}</p>
+{% endblock %}
