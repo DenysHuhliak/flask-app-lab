@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Greeting Page{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block content %}
-
+<h2>Вибір кольорової схеми</h2>
+<a class="btn {% if theme=='light' %}btn-primary{% else %}btn-outline-secondary{% endif %}" href="{{ url_for('set_theme', theme='light') }}">Світла</a>
+<a class="btn {% if theme=='dark' %}btn-primary{% else %}btn-outline-dark{% endif %}" href="{{ url_for('set_theme', theme='dark') }}">Темна</a>
+<br>
 <h1>Ласкаво просимо до сторінки {{ username }}!</h1>
 <p>Тут ви можете отримати інформацію та вийти з системи.</p>
 <a class="btn btn-danger" href="{{url_for('logout')}}">Вийти</a>
@@ -28,7 +31,6 @@
     </div>
 </form>
 <br>
-
 
 <form method="POST" action="{{ url_for('delete_cookie_key') }}" class="row g-3">
     <div class="mb-3">

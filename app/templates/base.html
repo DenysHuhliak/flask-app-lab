@@ -14,8 +14,7 @@
 
     {% endblock %}
 </head>
-
-<body class="sticky-footer-layout">
+<body class="sticky-footer-layout {% if theme == 'dark' %}bg-dark text-white{% else %}bg-light text-dark{% endif %}">
     {% include "includes/nav.html" %}
     <main style="flex: 1;" class="container mt-4 mb-5">
         {% with messages = get_flashed_messages() %}

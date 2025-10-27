@@ -32,7 +32,8 @@ def login():
 def get_profile():
     if "username" in session:
         username_value = session["username"]
-        return render_template("profile.html", username=username_value, cookies=request.cookies)
+        theme = request.cookies.get('theme', 'light')
+        return render_template("profile.html", username=username_value, cookies=request.cookies, theme=theme)
     return redirect(url_for("login"))
 
 @app.route('/logout')
@@ -47,54 +48,47 @@ def set_cookie():
     response.set_cookie('color', '', max_age=timedelta(seconds=60))
     return response
 
-# @app.route('/get_cookie')
-# def get_cookie():
-#     username = request.cookies.get('username')
-#     return f'Користувач: {username}'
-
-# @app.route('/delete_cookie')
-# def delete_cookie():
-#     response = make_response('Кука видалена')
-#     #response.set_cookie('username', '', expires=0) # response.set_cookie('username', '', max_age=0)
-#     response.delete_cookie('color')
-#     return response
 @app.route('/add_cookie', methods=['POST'])
 def add_cookie():
-    if "username" not in session:
-        return redirect(url_for("login"))
+    if "username" in session:
+        key = request.form.get("cookie_key")
+        value = request.form.get("cookie_value")
+        age = int(request.form.get("cookie_age"))
 
-    key = request.form.get("cookie_key")
-    value = request.form.get("cookie_value")
-    age = int(request.form.get("cookie_age"))
-
-    response = make_response(redirect(url_for('get_profile')))
-    response.set_cookie(key, value, max_age=age)
-    flash(f"Кука '{key}' успішно додана!")
-    return response
-
+        response = make_response(redirect(url_for('get_profile')))
+        response.set_cookie(key, value, max_age=age)
+        flash(f"Кука '{key}' успішно додана!")
+        return response
+    return redirect(url_for("login"))
 
 @app.route('/delete_cookie_key', methods=['POST'])
 def delete_cookie_key():
-    if "username" not in session:
-        return redirect(url_for("login"))
+    if "username" in session:
+        key = request.form.get("del_key")
 
-    key = request.form.get("del_key")
+        response = make_response(redirect(url_for('get_profile')))
+        response.delete_cookie(key)
 
-    response = make_response(redirect(url_for('get_profile')))
-    response.delete_cookie(key)
-
-    flash(f"Кука '{key}' видалена!")
-    return response
-
+        flash(f"Кука '{key}' видалена!")
+        return response
+    return redirect(url_for("login"))
 
 @app.route('/delete_all_cookies')
 def delete_all_cookies():
-    if "username" not in session:
-        return redirect(url_for("login"))
+    if "username" in session:
+        response = make_response(redirect(url_for('get_profile')))
+        for key in request.cookies.keys():
+            response.delete_cookie(key)
 
-    response = make_response(redirect(url_for('get_profile')))
-    for key in request.cookies.keys():
-        response.delete_cookie(key)
+        flash("Всі куки видалено!")
+        return response
+    return redirect(url_for("login"))
 
-    flash("Всі куки видалено!")
-    return response
+@app.route('/set_theme/<theme>')
+def set_theme(theme):
+    if "username" in session:
+        response = make_response(redirect(url_for('get_profile')))
+        response.set_cookie('theme', theme, max_age=30*24*60*60)
+        flash(f"Вибрано тему: {theme}")
+        return response
+    return redirect(url_for("login"))
