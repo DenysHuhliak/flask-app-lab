@@ -1,2 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
+{% block content %}
+<h3>Початкова сторінка</h3>
+ <h1>Overview</h1>
+  <p>Do you want to <a class="btn btn-primary" href="{{ url_for('login') }}">log in?</a>
+{% endblock %}
